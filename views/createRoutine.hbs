@@ -1,0 +1,125 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<div class ="d-flex align-items-center flex-column gap-3 ">
+    <h1>Create New Workout Routine</h1>
+    <form id="add-routine-form" class="needs-validation col-md-4" novalidate>
+        <div class="form-group required mb-3 ">
+            <label class="control-label" for="input-routine-name">Routine Name (e.g. Full Body Routine)</label>
+            <div class="input-group">
+                    <input type="text" class="form-control" name="input-routine-name" id="input-routine-name" placeholder="Enter Routine Name" required>
+                    <div class="invalid-feedback">
+                        Routine Name is required.
+                    </div>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="control-label" for="days">Select Workout Days</label>  
+        </div> 
+        <small id="daysHelp" class="form-text text-muted"> Must select at least one day.</small> 
+        <div class="form-group mb-3" id="days">
+            <div class="invalid-feedback">Must select at least one day.</div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="mon" value="Yes">
+                <label class="form-check-label" for="mon">Monday</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="tue" value="Yes">
+                <label class="form-check-label" for="tue">Tuesday</label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="wed" value="Yes">
+                <label class="form-check-label" for="wed">Wednesday</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="thu" value="Yes">
+                <label class="form-check-label" for="thu">Thursday</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="fri" value="Yes">
+                <label class="form-check-label" for="fri">Friday</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="sat" value="Yes">
+                <label class="form-check-label" for="sat">Saturday</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="Checkbox" name="days_box" id ="sun" value="Yes">
+                <label class="form-check-label" for="sun">Sunday</label>
+            </div>
+        </div>
+        <script>
+            $("input[name='days_box']").change (function() {
+                $.each($("input[name='days_box']"), function() {
+                        this.setCustomValidity('');
+                    });
+                    var checked = $("input[name='days_box']:checked").length;
+                    if (checked == 0 ) {
+                        $("[name='days_box']").attr('required', true);
+                        $("input[name='days_box']")[0].setCustomValidity('Please select at least one checkbox.');
+                    }
+                    else{
+                        $("[name='days_box']").attr('required', false);
+                    }
+            });
+        </script>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirm-cancel">Cancel</button>
+    </form>
+    <div class="modal fade" id="confirm-cancel" tabindex="-1" role="dialog" aria-labelledby="confirmCancelLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmCancelLabel">Cancel</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel?</p>
+                    <p>You will be re-directed to the Home Page.</p>
+                    <a href='/'><button class="btn btn-primary">Confirm</button></a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="./js/add_routine.js"></script>
+<script>
+function validateDays() {
+    if ($("[name='days_box']:checked").length == 0) {
+        $("[name='days_box']").attr('required', true);
+        $("input[name='days_box']")[0].setCustomValidity('Please select at least one checkbox.');
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    else {
+        $("[name='days_box']").attr('required', false);
+        $("input[name='days_box']")[0].setCustomValidity('');
+    }
+
+    $("[name='days_box']")[0].reportValidity();
+}
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        validateDays();
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>

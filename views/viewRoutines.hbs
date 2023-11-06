@@ -1,0 +1,65 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<div class ="d-flex align-items-center flex-column gap-3 m-3">
+    <h1>View All Workout Routines</h1>
+    <table id="routine-table" class="table table-striped">
+
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Monday</th>
+                <th scope="col">Tuesday</th>
+                <th scope="col">Wednesday</th>
+                <th scope="col">Thursday</th>
+                <th scope="col">Friday</th>
+                <th scope="col">Saturday</th>
+                <th scope="col">Sunday</th>
+            </tr>
+        </thead>
+
+        {{!-- Body section --}}
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this._id}}>
+                <th scope="row"><a href="./viewRoutine/{{this._id}}">{{this.name}}<a/></th>
+           
+                <td>
+                    {{#if this.monday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.tuesday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.wednesday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.thursday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.friday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.saturday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if this.sunday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>

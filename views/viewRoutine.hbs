@@ -1,0 +1,254 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<div class ="d-flex align-items-center flex-column gap-3 m-3">
+    <h1>View Workout Routine</h1>
+    <div class ="d-flex align-items-left flex-column gap-3 m-3">
+        <h4>{{routine.name}}</h4>
+        <table id="routine-table" class="table table-light">
+            <thead>
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+            </thead>
+
+            {{!-- Body section --}}
+            <tbody>
+                <tr>
+                    <td>
+                    {{#if routine.monday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.tuesday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.wednesday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.thursday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.friday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.saturday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if routine.sunday}}
+                        &#x2705;
+                    {{/if}}
+                </td>
+                </tr>
+            </tbody>   
+        </table>
+        <h5>Exercises</h5>
+        <table id="exercise-table" class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Sets</th>
+                    <th scope="col">Reps</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Most Recent Berkhan Value</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="exercise-table-body">
+                {{#each exercises}}
+                <tr data-value={{this._id}} scope="row">
+                    <td>{{this.name}}</td>
+                    <td>{{this.sets}}</td>
+                    <td>{{this.reps}}</td>
+                    <td>{{this.weight}}</td>
+                    <td>{{this.berkhan}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <i class="bi bi-three-dots" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#berkhanModal" data-id="{{this._id}}" data-sets="{{this.sets}}" data-reps="{{this.reps}}" data-weight="{{this.weight}}">Calculate Next Value</a>                         
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+
+        </table>
+        {{!-- <a href = "/createExercise/{{routine._id}}"><button type="button" class="btn btn-primary">Add Exercise</button></a> --}}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exerciseModal">Add Exercise</button>
+        <div class="modal fade" id="exerciseModal" tabindex="-1" role="dialog" aria-labelledby="exerciseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exerciseModalLabel">Add Exercise</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-exercise-form" class="needs-validation col-md-4" novalidate>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-exercise-name">Exercise Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="input-exercise-name" id="input-exercise-name" placeholder="Enter Exercise Name" required>
+                                <div class="invalid-feedback">
+                                    Exercise Name is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-exercise-sets">Sets</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-exercise-sets" id="input-exercise-sets" placeholder="Enter Sets" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid number of sets.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-exercise-reps">Reps</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-exercise-reps" id="input-exercise-reps" placeholder="Enter Reps" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid number of reps.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-exercise-weight">Weight</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-exercise-weight" id="input-exercise-weight" placeholder="Enter Weight" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid weight.
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-group mb-3 ">
+                            <label for="input-exercise-bv">Berkhan Value</label>
+                            <div class="input-group">
+                                <input type="number" step="0.001" class="form-control" name="input-exercise-bv" id="input-exercise-bv">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="berkhanModal" tabindex="-1" role="dialog" aria-labelledby="berkhanModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exerciseModalLabel">Calculate Berkhan Value</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="calculate-value-form" class="needs-validation col-md-4" novalidate>
+                        <input type="hidden" name="input-berkhan-id" id="input-berkhan-id">
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-berkhan-sets">Sets</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-berkhan-sets" id="input-berkhan-sets" placeholder="Enter Sets" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid number of sets.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-berkhan-reps">Reps</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-berkhan-reps" id="input-berkhan-reps" placeholder="Enter Reps" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid number of reps.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required mb-3 ">
+                            <label class="control-label" for="input-berkhan-weight">Weight</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="input-berkhan-weight" id="input-berkhan-weight" placeholder="8" required>
+                                <div class="invalid-feedback">
+                                    Enter a valid weight.
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </form>
+                    <div id="select-option">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+<script src="/js/add_exercise.js"></script>
+<script src="/js/berkhan_value.js"></script>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+<script>
+    $('#berkhanModal').on('show.bs.modal', function (event) {
+        // Clear previous calculations
+        const optionsForm = document.getElementById("select-option");
+        optionsForm.innerHTML = '';
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id') // Extract info from data-* attributes
+        var sets = button.data('sets') // Extract info from data-* attributes
+        var reps = button.data('reps') // Extract info from data-* attributes
+        var weight = button.data('weight') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-body input[id="input-berkhan-id"]').val(id)
+        modal.find('.modal-body input[id="input-berkhan-sets"]').val(sets)
+        modal.find('.modal-body input[id="input-berkhan-reps"]').val(reps)
+        modal.find('.modal-body input[id="input-berkhan-weight"]').val(weight)
+        })
+</script>
